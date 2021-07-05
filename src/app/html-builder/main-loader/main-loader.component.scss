@@ -1,0 +1,66 @@
+@import "variables";
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: mat-color($app-background, background);
+  z-index: 999;
+}
+
+:host-context(.partial) {
+  left: $inspector-width;
+  border-left: 1px solid mat-color($app-foreground, divider);
+
+  // save progress bar will already be shown so there's no need to have 2 progress bars
+  .mat-progress-bar {
+    display: none;
+  }
+}
+
+.mat-progress-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.loader-box {
+  display: flex;
+  width: 150px;
+  height: 150px;
+  background-color: mat-color($app-background, card);
+  border-radius: 4px;
+  @include mat-elevation(1);
+  padding: 36px;
+}
+
+.left, .right {
+  height: 100%;
+}
+
+.left {
+  width: 14px;
+  margin-right: 14px;
+}
+
+.right {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.loader-text {
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 7px;
+  text-align: center;
+  margin-top: 20px;
+  color: mat-color($app-foreground, secondary-text);
+  font-weight: 500;
+}

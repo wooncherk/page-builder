@@ -1,0 +1,41 @@
+<div class="datatable responsive-table">
+    <datatable-header pluralResourceName="templates">
+        <ng-container leftContent>
+            <button mat-raised-button color="accent" (click)="showCrupdateTemplateModal()" *ngIf="currentUser.hasPermission('templates.create')" headerActions trans>Add</button>
+        </ng-container>
+        <button mat-raised-button color="accent" [matTooltip]="'Delete selected' | trans" (click)="maybeDeleteSelectedTemplates()" rightContent *ngIf="currentUser.hasPermission('templates.delete')">Delete Selected</button>
+    </datatable-header>
+    <table class="material-table">
+        <thead>
+        <tr>
+            <th table-header-checkbox></th>
+            <th table-sort-header="name" trans>Template</th>
+            <th table-sort-header trans>Category</th>
+            <th trans>Last Updated</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let template of templates$ | async">
+            <td [table-body-checkbox]="template.name"></td>
+            <td>
+                <div class="column-with-image">
+                    <img [src]="getTemplateThumbnail(template)">
+                    <span>{{template.config.name}}</span>
+                </div>
+            </td>
+            <td data-label="Category">{{template.config.category}}</td>
+            <td data-label="Last Updated">{{template.updated_at | formattedDate}}</td>
+            <td class="edit-column">
+                <button mat-icon-button (click)="showCrupdateTemplateModal(template)" *ngIf="currentUser.hasPermission('templates.update')" [matTooltip]="'Edit template' | trans">
+                    <mat-icon svgIcon="edit"></mat-icon>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <no-results-message svgImage="insert-block.svg" *ngIf="datatable.paginator.noResults$ | async">
+        <span primary-text>No templates have been created yet</span>
+    </no-results-message>
+    <datatable-footer></datatable-footer>
+</div>

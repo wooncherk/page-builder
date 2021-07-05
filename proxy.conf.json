@@ -1,0 +1,22 @@
+{
+    "/secure": {
+        "target": "http://localhost/architect/server",
+        "secure": false
+    },
+    "/storage": {
+        "target": "http://localhost/architect/server",
+        "secure": false
+    },
+    "/client": {
+        "target": "http://localhost/architect/server",
+        "secure": false
+    },
+    "/builder/font-awesome": {
+        "target": "http://localhost/architect/server",
+        "secure": false
+    },
+    "/__clockwork": {
+        "target": "http://localhost/architect/server/public",
+        "secure": false
+    }
+}

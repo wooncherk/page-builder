@@ -1,0 +1,48 @@
+<div class="datatable responsive-table">
+    <datatable-header pluralResourceName="projects">
+        <ng-container leftContent>
+            <button mat-raised-button color="accent" (click)="showCrupdateProjectModal()" *ngIf="currentUser.hasPermission('projects.create')" headerActions trans>Add</button>
+        </ng-container>
+        <button mat-raised-button color="accent" [matTooltip]="'Delete selected' | trans" (click)="maybeDeleteSelectedProjects()" rightContent *ngIf="currentUser.hasPermission('projects.delete')" trans>Delete Selected</button>
+    </datatable-header>
+    <table class="material-table">
+        <thead>
+        <tr>
+            <th table-header-checkbox></th>
+            <th table-sort-header="name" trans>Project</th>
+            <th trans>Owner</th>
+            <th table-sort-header trans>Published</th>
+            <th table-sort-header trans>Template</th>
+            <th table-sort-header="updated_at" trans>Last Updated</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let project of projects$ | async">
+            <td [table-body-checkbox]="project.id"></td>
+            <td>
+                <div class="column-with-image">
+                    <img [src]="getProjectThumbnail(project)" alt="">
+                    <span> {{project.name}} </span>
+                </div>
+            </td>
+            <td data-label="Owner">
+                <user-column [user]="project.users[0]"></user-column>
+            </td>
+            <td data-label="Published">{{project.published ? 'Yes' : 'No'}} </td>
+            <td data-label="Template">{{project.template}} </td>
+            <td>{{project.updated_at | formattedDate}}</td>
+            <td class="edit-column">
+                <a mat-icon-button target="_blank" [routerLink]="['/builder', project.id]" [matTooltip]="'Edit project' | trans"><mat-icon svgIcon="edit"></mat-icon></a>
+                <button mat-icon-button (click)="showCrupdateProjectModal(project)" *ngIf="currentUser.hasPermission('projects.update')" [matTooltip]="'Update details' | trans">
+                    <mat-icon svgIcon="settings"></mat-icon>
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <no-results-message svgImage="website-builder.svg" *ngIf="datatable.paginator.noResults$ | async">
+        <span primary-text>No projects have been created yet</span>
+    </no-results-message>
+    <datatable-footer></datatable-footer>
+</div>
